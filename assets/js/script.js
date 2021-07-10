@@ -11,42 +11,45 @@ var tasksToDoEl = document.querySelector("#tasks-to-do");
 //*One function to handle the form submission, get the form values, and pass those values to another function as arguments
 //*One function to accept the form values as arguments and use them to create the new task item's HTML
 
-var createTaskHandler = function(event) { 
+var taskFormHandler = function(event) { 
   event.preventDefault(); 
+  var taskNameInput = document.querySelector("input[name='task-name']").value;
+  var taskTypeInput = document.querySelector("select[name='task-type']").value;
+
+  // package up data as an object
+  var taskDataObj = {
+    name: taskNameInput,
+    type: taskTypeInput
+  };
+
+  // send it as an argument to createTaskE1
+  createTaskE1(taskDataObj);
+};
 
   // ** Target the appropriate HTML elements in Dev Tools by using console.dir **
   // var taskNameInput = document.querySelector("input[name='task-name']");
   // console.dir(taskNameInput);
 
-  var taskNameInput = document.querySelector("input[name='task-name']").value;
+  var createTaskE1 = function (taskDataObj) {
+    // create list item
+    var listItemEl = document.createElement("li"); 
+    listItemEl.className = "task-item"; 
   
-  var taskTypeInput = document.querySelector("select[name='task-type']").value;
-  console.log(taskTypeInput);
+    // Step 2. create div to hold task info and add to list item **
+    var taskInfoE1 = document.createElement("div");
   
- // CREATING NEW LIST ITEMS AND STORING CONTENT TO BROWSER MEMORY //
- 
- // step 1. create list item
-  var listItemEl = document.createElement("li"); 
-  listItemEl.className = "task-item"; 
-
-  // Step 2. create div to hold task info and add to list item **
-  var taskInfoE1 = document.createElement("div");
-
-  // Step 3. give it a class name
-  taskInfoE1.className = "task-info";
-
-  // Step 4. add HTML content to div **
-  taskInfoE1.innerHTML = "<h3 class='task-name'>" + taskNameInput + "</h3><span class='task-type'>" + taskTypeInput + "</span>";
-  // ** We didn't have to use the innerHTML property here. 
-  //Instead, we could have created HTML elements for the title and type separately and then appended them to the container element. 
-  //While both approaches work, innerHTML lets us create fewer variables, but with less readable code.
-  //Remember, there's usually more than one way to complete a task. It's up to you to decide which way to go. **
-
-  listItemEl.appendChild(taskInfoE1);
-
-
-  // add entire list item to list
-  tasksToDoEl.appendChild(listItemEl); 
-  }; 
-
-  formEl.addEventListener("submit", createTaskHandler);
+    // Step 3. give it a class name
+    taskInfoE1.className = "task-info";
+  
+    // Step 4. add HTML content to div **
+    taskInfoE1.innerHTML = "<h3 class='task-name'>" + taskDataObj.name + "</h3><span class='task-type'>" + taskDataObj.type + "</span>";
+    // ** We didn't have to use the innerHTML property here. 
+    //Instead, we could have created HTML elements for the title and type separately and then appended them to the container element. 
+    //While both approaches work, innerHTML lets us create fewer variables, but with less readable code.
+    //Remember, there's usually more than one way to complete a task. It's up to you to decide which way to go. **
+  
+       // add entire list item to list
+    tasksToDoEl.appendChild(listItemEl); 
+  };
+     
+  formEl.addEventListener("submit", taskFormHandler);
