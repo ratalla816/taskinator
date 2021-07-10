@@ -13,8 +13,23 @@ var tasksToDoEl = document.querySelector("#tasks-to-do");
 
 var taskFormHandler = function(event) { 
   event.preventDefault(); 
-  var taskNameInput = document.querySelector("input[name='task-name']").value;
+  var taskNameInput = document.querySelector("input[name='task-name'").value;
   var taskTypeInput = document.querySelector("select[name='task-type']").value;
+
+  // ** check if input values are empty strings \\
+  if (taskNameInput === "" || taskTypeInput === "") {
+    alert("You need to fill out the task form!");
+    return false;
+  }
+  // ** When used in a condition, empty strings and the number 0 are evaluated as falsy values. 
+  // When we use the syntax !taskNameInput, we're checking to see if the taskNameInput variable is empty by asking if it's a falsy value.
+  // That's what the "not" operator ! is doing here. Because the default is to check for a true value, the ! is used to check for the opposite (false) value. **
+  
+  formEl.reset();
+
+  // reset form fields for task to be entered
+  document.querySelector("input[name='task-name']").value = "";
+  document.querySelector("select[name='task-type']").selectedIndex = 0;
 
   // package up data as an object
   var taskDataObj = {
@@ -22,32 +37,34 @@ var taskFormHandler = function(event) {
     type: taskTypeInput
   };
 
-  // send it as an argument to createTaskE1
-  createTaskE1(taskDataObj);
+  // send it as an argument to createTaskEl
+  createTaskEl(taskDataObj);
 };
 
   // ** Target the appropriate HTML elements in Dev Tools by using console.dir **
   // var taskNameInput = document.querySelector("input[name='task-name']");
   // console.dir(taskNameInput);
 
-  var createTaskE1 = function (taskDataObj) {
+  var createTaskEl = function (taskDataObj) {
     // create list item
     var listItemEl = document.createElement("li"); 
     listItemEl.className = "task-item"; 
   
     // Step 2. create div to hold task info and add to list item **
-    var taskInfoE1 = document.createElement("div");
+    var taskInfoEl = document.createElement("div");
   
     // Step 3. give it a class name
-    taskInfoE1.className = "task-info";
+    taskInfoEl.className = "task-info";
   
     // Step 4. add HTML content to div **
-    taskInfoE1.innerHTML = "<h3 class='task-name'>" + taskDataObj.name + "</h3><span class='task-type'>" + taskDataObj.type + "</span>";
+    taskInfoEl.innerHTML = "<h3 class='task-name'>" + taskDataObj.name + "</h3><span class='task-type'>" + taskDataObj.type + "</span>";
     // ** We didn't have to use the innerHTML property here. 
     //Instead, we could have created HTML elements for the title and type separately and then appended them to the container element. 
     //While both approaches work, innerHTML lets us create fewer variables, but with less readable code.
     //Remember, there's usually more than one way to complete a task. It's up to you to decide which way to go. **
-  
+    listItemEl.appendChild(taskInfoEl);
+
+    console.dir(listItemEl);
        // add entire list item to list
     tasksToDoEl.appendChild(listItemEl); 
   };
